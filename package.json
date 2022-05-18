@@ -1,0 +1,25 @@
+{
+  "name": "estoes-challenges-backend",
+  "version": "1.0.0",
+  "description": "![Estoes](assets/images/logo.png \"Esto es Agencia Digital\") # Backend challenge * Se debe crear un servicio que maneje los datos de la plataforma de gestión de proyectos. * Si bien no hay restricción de tiempo, creemos que de 3 a 5 horas es un tiempo razonable para entregarlo con calidad.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./src/app.js",
+    "sequelizeInit": "sequelize init"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-validator": "^6.14.0",
+    "js-yaml": "^4.1.0",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.16",
+    "sequelize": "^6.19.0",
+    "sequelize-cli": "^6.4.1",
+    "swagger-jsdoc": "^6.2.1",
+    "swagger-ui-express": "^4.4.0"
+  }
+}

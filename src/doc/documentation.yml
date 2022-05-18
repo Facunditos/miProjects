@@ -1,0 +1,409 @@
+openapi: "3.0.1"
+info:
+  version: "1.0.0"
+  title: "MiProjects"
+servers:
+  - url: "http://localhost:3030/"
+tags:
+- name: "Projects"
+  description: "Projects endpoints"
+components:
+  schemas:
+    Project:
+      type: object
+      required: ["name","projectmanajer","users","status"]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          description: "Project name"
+        description:
+          type: string
+          description: "Project description"
+        projectmanajer:
+          type: object
+          description: ""
+        users:
+          type: array
+          description: "List of users assigned to project"
+        created_at:
+          type: string
+          description: "Project creation date"
+        updated_at:
+          type: string
+          description: "Project update date"
+        deleted_at:
+          type: string
+          description: "Project deletion date"
+paths:
+  /projects:
+    get:
+      tags:
+      - "Projects"
+      summary: "Find projects sorted by page"
+      description: "Returns a list of three projects sorted by page, starting with page 1 and returns 
+        the previus and next page links according the page number you're currently on."
+      produces:
+      - "application/json"
+      parameters:
+      - name: "page"
+        in: "query"
+        description: "Page number"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Project"
+                example:
+                  status: 200
+                  previusPage: "/projects?page=1"
+                  nextPage: "/projects?page=2"
+                  totalProjects: 15
+                  projectsExample: [
+                    {
+                      "id": 1,
+                      "name": "Project 1",
+                      "description": "Example description",
+                      "status": "Example status",
+                      "createdAt": "Date",
+                      "Project": {
+                        "user_id": 2
+                      },
+                      Users: [
+                        {
+                          "first_name": "Facundo",
+                          "last_name": "López Crespo"
+                        },
+                        {
+                          "first_name": "Maite",
+                          "last_name": "Perez"
+                        }
+                      ]
+                    },
+                    {
+                      "id": 2,
+                      "name": "Project 2",
+                      "description": "Example description",
+                      "status": "Example status",
+                      "createdAt": "Date",
+                      "Project": {
+                        "user_id": 4
+                      },
+                      Users: [
+                        {
+                          "first_name": "Facundo",
+                          "last_name": "López Crespo"
+                        },
+                        {
+                          "first_name": "Maite",
+                          "last_name": "Perez"
+                        },
+                        {
+                          "first_name": "Maite",
+                          "last_name": "Fernández"
+                        }
+                      ]
+                    },
+                    {
+                      "id": 3,
+                      "name": "Project 3",
+                      "description": "Example description",
+                      "status": "Example status",
+                      "createdAt": "Date",
+                      "Project": {
+                        "user_id": 1
+                      },
+                      Users: [
+                        {
+                          "first_name": "Ramiro",
+                          "last_name": "López Crespo"
+                        }
+                      ]
+                    },
+                  ]
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not found"
+        500:
+          description: "Error Server"
+    post:
+      tags:
+      - "Projects"
+      summary: "Create project"
+      description: "Creates a new project"
+      requestBody:
+        description: "Project object that needs to be added"
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                  description: "Project name"
+                description:
+                  type: string
+                  description: "Project description is optional"
+                projectmanajer_id:
+                  type: integer
+                  description: "integer greater than cero"
+                status:
+                  type: string
+                  description: ""
+                firstUserAssigned_id: 
+                  type: integer
+                  description: "Integer greater than cero. It shouldn't be empty"
+                secondUserAssigned_id: 
+                  type: integer
+                  description: "It could be equal to cero"
+                thirdUserAssigned_id: 
+                  type: integer
+                  description: "It could be equal to cero"
+        required: true
+      responses:
+        201:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                items:
+                    $ref: "#/components/schemas/Project"
+                example:
+                  status: 201
+                  message: "Project created"
+                  projectExample: {
+                      "id": 5,
+                      "name": "New Project",
+                      "description": "Example description",
+                      "status": "Example status",
+                      "createdAt": "Date",
+                      "Project": {
+                        "user_id": 2
+                      },
+                      Users: [
+                        {
+                          "first_name": "Facundo",
+                          "last_name": "López Crespo"
+                        },
+                        {
+                          "first_name": "Maite",
+                          "last_name": "Perez"
+                        }
+                      ]
+                    }
+        400:
+          description: "Bad request"
+        500:
+          description: "Internal server error"
+    
+  /projects/{projectId}:
+    get:
+      tags:
+      - "Projects"
+      summary: "Find project by id"
+      description: "Returns a project by id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "projectId"
+        in: "path"
+        description: "Project id"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Project"
+                example:
+                      status: 200
+                      ProjectExample: {
+                      "id": 5,
+                      "name": "Project 5",
+                      "description": "Example description",
+                      "status": "Example status",
+                      "createdAt": "Date",
+                      "Project": {
+                        "user_id": 2
+                      },
+                      Users: [
+                        {
+                          "first_name": "Facundo",
+                          "last_name": "López Crespo"
+                        },
+                        {
+                          "first_name": "Maite",
+                          "last_name": "Perez"
+                        }
+                      ]
+                    }
+        404:
+          description: "Not found"
+        500:
+          description: "Error Server"
+    put:
+      tags:
+      - "Projects"
+      summary: "Update project"
+      description: "Updates a project"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "projectId"
+        in: "path"
+        description: "Project id"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        description: "Project object that needs to be updated"
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                  description: "Project name"
+                description:
+                  type: string
+                  description: "Project description is optional"
+                projectmanajer_id:
+                  type: integer
+                  description: "integer greater than cero"
+                status:
+                  type: string
+                  description: ""
+                firstUserAssigned_id: 
+                  type: integer
+                  description: "Integer greater than cero. It shouldn't be empty"
+                secondUserAssigned_id: 
+                  type: integer
+                  description: "It could be equal to cero"
+                thirdUserAssigned_id: 
+                  type: integer
+                  description: "It could be equal to cero"
+        required: true
+      responses:
+        200:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Project"
+                example:
+                  status: 200
+                  message: "Project updated"
+                  Example: {
+                      "id": 5,
+                      "name": "Project Updated",
+                      "description": "Example description",
+                      "status": "Example status",
+                      "createdAt": "Date",
+                      "Project": {
+                        "user_id": 2
+                      },
+                      Users: [
+                        {
+                          "first_name": "Facundo",
+                          "last_name": "López Crespo"
+                        },
+                        {
+                          "first_name": "Maite",
+                          "last_name": "Perez"
+                        }
+                      ]
+                    }
+        400:
+          description: "Bad request"
+        404:
+          description: "Not found"
+        500:
+          description: "Error Server"
+    delete:
+      tags:
+      - "Projects"
+      summary: "Delete project"
+      description: "Deletes a project"
+      parameters:
+      - name: "projectId"
+        in: "path"
+        description: "Project id"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                example:
+                  status: "200"
+                  message: "Project deleted"
+        404:
+          description: "Not found"
+        500:
+          descriotion: "Error Server"
+  /projects/search/name:
+    get:
+        tags:
+          - "Projects"
+        summary: "Find projects by name"
+        description: "Returns projects by name"
+        produces:
+          - "application/json"
+        parameters:
+          - name: "name"
+            in: "query"
+            description: "Project's name"
+            required: true
+            schema:
+              type: "string"
+        responses:
+          200:
+            description: "Successful operation"
+            content:
+              application/json:
+                schema:
+                  items:
+                    $ref: "#/components/schemas/Project"
+                  example:
+                    status: 200
+                    Example: {
+                      "id": 5,
+                      "name": "Project 5",
+                      "description": "Example description",
+                      "status": "Example status",
+                      "createdAt": "Date",
+                      "Project": {
+                        "user_id": 2
+                      },
+                      Users: [
+                        {
+                          "first_name": "Facundo",
+                          "last_name": "López Crespo"
+                        },
+                        {
+                          "first_name": "Maite",
+                          "last_name": "Perez"
+                        }
+                      ]
+                    }
+          404:
+            description: "Not found"
+          500:
+            description: "Error Server"
+    
+  
