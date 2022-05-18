@@ -10,10 +10,12 @@ const ymal = require("js-yaml");
 const doc = ymal.load(fs.readFileSync(path.join(__dirname,"doc/documentation.yml"), 'utf8'));
 
 const projectsRouter=require("./routes/projects");
+const mainRouter=require("./routes/main");
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+app.use('/', mainRouter);
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(doc));
 app.use('/projects',projectsRouter);
 
